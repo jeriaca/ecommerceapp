@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {},
+  "function": {
+    "ecommerceapp4508becePostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  }
+}
