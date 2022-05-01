@@ -35,8 +35,8 @@ AWS.CognitoIdentityServiceProvider({
   adding the category
 *  This will also be available in the file itself, commented out at the top
 */
-var userpoolId = process.env.ecommerceapp827b302d
-//If this doesn't work, try AUTH_ECOMMERCEAPP827B302D_USERPOOLID
+var userpoolId = process.env.AUTH_ECOMMERCEAPP827B302D_USERPOOLID
+//If this doesn't work, try ecommerceapp827b302d 
 
 // DynamoDB configuration
 const region = process.env.REGION
@@ -44,7 +44,7 @@ const ddb_table_name = process.env.STORAGE_PRODUCTTABLE_NAME
 const docClient = new AWS.DynamoDB.DocumentClient({region})
 
 // declare a new express app
-const app = express()
+const app = express() 
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
@@ -55,6 +55,42 @@ app.use(function(req, res, next) {
   next()
 });
 
+// amplify/backend/function/ecommercefunction/src/app.js
+async function getGroupsForUser(event) {
+  let userSub =
+    event
+      .requestContext
+      .identity
+      .cognitoAuthenticationProvider
+      .split(':CognitoSignIn:')[1]
+  let userParams = {
+    UserPoolId: userpoolId,
+    Filter: `sub = "${userSub}"`,
+  }
+  let userData = await cognito.listUsers(userParams).promise()
+  const user = userData.Users[0]
+  var groupParams = {
+    UserPoolId: userpoolId,
+    Username: user.Username
+  }
+  const groupData = await cognito.adminListGroupsForUser(groupParams).promise()
+  return groupData
+}
+
+async function canPerformAction(event, group) {
+  return new Promise(async (resolve, reject) => {
+    if (!event.requestContext.identity.cognitoAuthenticationProvider) {
+      return reject()
+    }
+    const groupData = await getGroupsForUser(event)
+    const groupsForUser = groupData.Groups.map(group => group.GroupName)
+    if (groupsForUser.includes(group)) {
+      resolve()
+    } else {
+      reject('user not in group, cannot perform action..')
+    }
+  })
+}
 
 /**********************
  * Example get method *
