@@ -14,10 +14,14 @@
     "categories": {
       "auth": {
         "ecommerceapp4508bece": {},
-        "false": {}
+        "false": {},
+        "ecommerceapp827b302d": {}
       },
       "function": {
         "ecommerceapp4508becePostConfirmation": {
+          "GROUP": "Admin"
+        },
+        "ecommerceapp827b302dPostConfirmation": {
           "GROUP": "Admin"
         }
       }
