@@ -13,10 +13,10 @@ export const Router = () => {
     <HashRouter>
       <Nav />
       <Routes>
-        <Route exact path='/' element={Main} />
-        <Route path='/admin' element={Admin} />
-        <Route path='/profile' element={Profile} />
-        <Route component={Main} />
+        <Route exact path='/' element={<Main />} />
+        <Route path='/admin' element={<Admin />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route component={<Main />} />
       </Routes>
     </HashRouter>
   );
