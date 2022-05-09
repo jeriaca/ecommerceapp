@@ -3,13 +3,14 @@ import './App.css';
 import { Input, Button } from 'antd';
 
 import { API } from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react/legacy';
+//import '@aws-amplify/ui-react/styles.css';
 
 const initialState = {
   name: '', price: ''
 };
 
-export const Admin = () => {
+const Admin = () => {
 
   const [itemInfo, updateItemInfo] = useState(initialState);
 
@@ -70,3 +71,5 @@ export const Admin = () => {
 const containerStyle = { width: 400, margin: '20px auto' };
 const inputStyle = { marginTop: 10 };
 const buttonStyle = { marginTop: 10 };
+
+export default withAuthenticator(Admin);

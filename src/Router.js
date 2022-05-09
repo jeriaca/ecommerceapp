@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { Nav } from './Nav';
-import { Admin } from './Admin';
+import Admin from './Admin';
 import { Main } from './Main';
 import { Profile } from './Profile';
 
